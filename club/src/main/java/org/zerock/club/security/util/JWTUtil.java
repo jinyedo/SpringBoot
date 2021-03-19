@@ -22,8 +22,8 @@ public class JWTUtil {
 
         return Jwts.builder()
                 .setIssuedAt(new Date()) // 발행일
-                //.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(expire).toInstant())) // 만료일
-                .setExpiration(Date.from(ZonedDateTime.now().plusSeconds(1).toInstant()))
+                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(expire).toInstant())) // 만료일
+                //.setExpiration(Date.from(ZonedDateTime.now().plusSeconds(1).toInstant()))
                 // sub 라는 이름을 가지는 Claim 에는 사용자의 이메일 주소를 입력해 주어서 나중에 사용할 수 있도록 구성
                 .claim("sub", content)
                 .signWith(SignatureAlgorithm.HS256, secretKey.getBytes(StandardCharsets.UTF_8))
