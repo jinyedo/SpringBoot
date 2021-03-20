@@ -9,13 +9,19 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
-public class Movie extends BaseEntity {
+@ToString(exclude = "movie")
+public class Poster {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long mno;
+    private Long ino;
 
-    private String title;
+    private String fname;
+
+    // 포스터 순번
+    private int idx;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Movie movie;
 }
 
