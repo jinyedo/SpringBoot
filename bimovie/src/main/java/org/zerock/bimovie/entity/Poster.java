@@ -24,6 +24,7 @@ public class Poster {
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
 
+// Movie 객체에서 Poster 객체를 다룰 수 있도록
     public void setIdx(int idx) {
         this.idx = idx;
     }
