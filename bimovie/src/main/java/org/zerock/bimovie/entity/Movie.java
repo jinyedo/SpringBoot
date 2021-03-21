@@ -20,7 +20,7 @@ public class Movie extends BaseEntity {
 
     private String title;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "movie")
     private List<Poster> posterList = new ArrayList<>();
 }
 
