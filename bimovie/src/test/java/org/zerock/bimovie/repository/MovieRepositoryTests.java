@@ -42,5 +42,17 @@ public class MovieRepositoryTests {
 
         movieRepository.save(movie);
     }
+
+    @Test
+    @Transactional
+    @Commit
+    public void testRemovePoster() {
+        Movie movie = movieRepository.getOne(1L);
+        movie.removePoster(2L);
+
+        // save()의 대상이 Movie 객체지만 실제로는 poster 테이블의 데이터가 삭제되고,
+        // update 가 필요한 Poster 객체는 자동으로 수정
+        movieRepository.save(movie);
+    }
 }
 
