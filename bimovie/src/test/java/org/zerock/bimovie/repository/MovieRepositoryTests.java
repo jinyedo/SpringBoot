@@ -10,6 +10,7 @@ import org.zerock.bimovie.entity.Poster;
 
 import javax.transaction.Transactional;
 import java.beans.Transient;
+import java.util.stream.IntStream;
 
 @SpringBootTest
 @Log4j2
@@ -53,6 +54,17 @@ public class MovieRepositoryTests {
         // save()의 대상이 Movie 객체지만 실제로는 poster 테이블의 데이터가 삭제되고,
         // update 가 필요한 Poster 객체는 자동으로 수정
         movieRepository.save(movie);
+    }
+
+    @Test
+    public void insertMovies() {
+        IntStream.rangeClosed(10, 100).forEach(i -> { // 10부터 100까지 90개
+            Movie movie = Movie.builder().title("세계명작" + i).build();
+            movie.addPoster(Poster.builder().fname("세계명작" + i + "포스터1.jpg").build());
+            movie.addPoster(Poster.builder().fname("세계명작" + i + "포스터2.jpg").build());
+
+            movieRepository.save(movie);
+        });
     }
 }
 
