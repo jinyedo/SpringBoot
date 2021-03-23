@@ -83,5 +83,20 @@ public class MovieRepositoryTests {
             log.info("----------------------------------------");
         });
     }
+
+    @Test
+    public void testPaging2() {
+
+        // limit 가 없는 문제 발생
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+        Page<Movie> result = movieRepository.findAll2(pageable);
+
+        result.getContent().forEach(m -> {
+            log.info(m.getMno());
+            log.info(m.getTitle());
+            log.info(m.getPosterList().size());
+            log.info("----------------------------------------");
+        });
+    }
 }
 
