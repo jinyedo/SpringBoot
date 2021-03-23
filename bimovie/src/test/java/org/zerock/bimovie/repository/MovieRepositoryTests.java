@@ -4,12 +4,15 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.zerock.bimovie.entity.Movie;
 import org.zerock.bimovie.entity.Poster;
 
 import javax.transaction.Transactional;
-import java.beans.Transient;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -64,6 +67,20 @@ public class MovieRepositoryTests {
             movie.addPoster(Poster.builder().fname("세계명작" + i + "포스터2.jpg").build());
 
             movieRepository.save(movie);
+        });
+    }
+
+    @Test
+    public void testPaging1() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+
+        Page<Movie> result = movieRepository.findAll(pageable);
+
+        result.getContent().forEach(m -> {
+            log.info(m.getMno());
+            log.info(m.getTitle());
+            log.info(m.getPosterList().size());
+            log.info("----------------------------------------");
         });
     }
 }
