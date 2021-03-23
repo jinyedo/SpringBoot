@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Builder
@@ -30,6 +31,27 @@ public class Movie extends BaseEntity {
         poster.setIdx(this.posterList.size());
         poster.setMovie(this);
         posterList.add(poster);
+    }
+
+    // 특정 Poster 삭제
+    // 해당 번호의 Poster 객체를 찾에서 postList 에서 삭제한다.
+    public void removePoster(Long ino) {
+        Optional<Poster> result = posterList.stream().filter(p -> p.getIno().equals(ino)).findFirst();
+
+        result.ifPresent(p -> {
+            p.setMovie(null); // 하위 엔티티를 삭제할 때 참조 관계 안전하게 끊어주기
+            posterList.remove(p);
+        });
+
+        // 여러 Poster 중에서 하나를 삭제했기 때문에 기존의 Poster 객체 idx 의 값을 변경
+        changeIdx();
+    }
+
+    // Poster idx 번호 변경
+    private void changeIdx() {
+        for (int i=0; i<posterList.size(); i++) {
+            posterList.get(i).setIdx(i);
+        }
     }
 }
 
