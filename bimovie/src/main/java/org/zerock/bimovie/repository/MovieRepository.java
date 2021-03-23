@@ -12,5 +12,10 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @EntityGraph(attributePaths = "posterList", type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Movie m")
     Page<Movie> findAll2(Pageable pageable);
+
+    @Query("SELECT m, p, count(p) " +
+            "FROM Movie m LEFT JOIN Poster p ON p.movie = m " +
+            "GROUP BY p.movie")
+    Page<Object[]> findAll3(Pageable pageable);
 }
 

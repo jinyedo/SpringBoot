@@ -13,6 +13,7 @@ import org.zerock.bimovie.entity.Movie;
 import org.zerock.bimovie.entity.Poster;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -95,6 +96,17 @@ public class MovieRepositoryTests {
             log.info(m.getMno());
             log.info(m.getTitle());
             log.info(m.getPosterList().size());
+            log.info("----------------------------------------");
+        });
+    }
+
+    @Test
+    public void testPaging3() {
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+        Page<Object[]> result = movieRepository.findAll3(pageable);
+
+        result.getContent().forEach(arr -> {
+            log.info(Arrays.toString(arr));
             log.info("----------------------------------------");
         });
     }
